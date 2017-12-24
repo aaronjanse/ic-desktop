@@ -23,11 +23,6 @@
       courses () {
         return this.$store.state.Student.courses
       }
-    },
-    mounted () {
-      this.student.getClasses().then(courses => {
-        this.$store.commit('setCourses', courses)
-      })
     }
   }
 </script>

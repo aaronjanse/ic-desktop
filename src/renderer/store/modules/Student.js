@@ -1,6 +1,7 @@
 const state = {
   student: null,
-  courses: null
+  courses: null,
+  recent: null
 }
 
 const mutations = {
@@ -10,6 +11,10 @@ const mutations = {
 
   setCourses (state, courses) {
     state.courses = courses
+  },
+
+  setRecentAssignments (state, assignments) {
+    state.recent = assignments
   }
 }
 
