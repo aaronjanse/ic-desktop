@@ -21,7 +21,7 @@
     name: 'Login',
     data () {
       return {
-        school: '',
+        school: localStorage.getItem('url'),
         username: '',
         password: '',
         student: {}
@@ -40,6 +40,8 @@
 
           this.$store.commit('setStudent', student)
           this.$router.replace('/recent')
+
+          localStorage.setItem('url', this.school)
         })
       }
     }
