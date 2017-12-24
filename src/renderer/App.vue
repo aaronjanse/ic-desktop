@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="main">
-      <div class="card">
+      <div class="card card-app">
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs" v-if="!student">
             <li class="nav-item">
@@ -13,13 +13,13 @@
           </ul>
           <ul class="nav nav-tabs card-header-tabs" v-else>
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active" to="recent">Recent</router-link>
+              <router-link class="nav-link" active-class="active" :to="{ name: 'recent' }">Recent</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active" to="grades">Grades</router-link>
+              <router-link class="nav-link" active-class="active" :to="{ name: 'grades' }">Grades</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" active-class="active" to="attendance">Attendance</router-link>
+              <router-link class="nav-link" active-class="active" :to="{ name: 'attendance' }">Attendance</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" @click="signOut()">Sign out</a>
@@ -59,7 +59,7 @@ export default {
   .container
     max-width: 730px
 
-.card
+.card-app
   border-radius: 0px
   border: none
 </style>

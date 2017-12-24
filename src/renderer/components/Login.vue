@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin: 20px">
     <div class="form-group">
       <input v-model="school" type="text" class="form-control" id="school" placeholder="IC url">
       <small class="form-text text-muted"><strong>What's this?</strong> Enter the URL where you usually access Infinite Campus</small>
