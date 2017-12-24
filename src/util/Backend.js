@@ -41,8 +41,11 @@ export default class Backend {
         credentials: 'include'
       }
     )
-      .then(this._extractUserData.bind(this))
-      .then(this._loadSchedule.bind(this))
+      .then(response => {
+        this.cookieString = response.headers._headers['set-cookie'].map(cookieStr => cookieStr.split(';')[0]).join('; ')
+      })
+      .then(this._extractUserData)
+      .then(this._loadSchedule)
   }
 
   getRecentAssignments = () => {
@@ -67,7 +70,10 @@ export default class Backend {
   // returns promise of Class
   _fetchClass = (classRef) => {
     return fetch(this.baseUrl + classRef.url, {
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        cookie: this.cookieString
+      }
     })
       .then(response => response.text())
       .then(response => {
@@ -170,8 +176,10 @@ export default class Backend {
   }
 
   _loadSchedule = () => {
-    fetch(this.scheduleUrl, {
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        cookie: this.cookieString
+      }
     })
       .then(response => response.text())
       .then(response => {
@@ -202,7 +210,10 @@ export default class Backend {
       this.baseUrl +
         'portal/portalOutlineWrapper.xsl?x=portal.PortalOutline&contentType=text/xml&lang=en', {
         method: 'GET',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          cookie: this.cookieString
+        }
       }
     )
       .then(response => response.text())
