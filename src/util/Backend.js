@@ -47,19 +47,13 @@ export default class Backend {
   }
 
   getRecentAssignments = () => {
-    var gradesUrl =
-      this.baseUrl + 'portal/portal.xsl?x=portal.PortalOutline&lang=en&'
-    gradesUrl += toUrlString(this.accountData)
-    gradesUrl += '&mode=grades&x=portal.PortalGrades'
-
-    return fetch(gradesUrl, {
+    return fetch(this.gradesUrl, {
       credentials: 'include'
     })
       .then(response => response.text())
       .then(response => {
         const $ = cheerio.load(response)
         const recentAssignmentsTable = $('.portalTable').eq(1)
-        console.log(gradesUrl)
         console.log(recentAssignmentsTable)
       })
   }
@@ -117,7 +111,6 @@ export default class Backend {
               } else if (row['attribs']['class'] === 'gridCellNormal') {
                 // add assignment
                 const columns = $(row).children()
-                // console.log(columns.eq(5).text().trim())
                 if (
                   columns
                     .eq(5)
@@ -180,13 +173,7 @@ export default class Backend {
   }
 
   _loadSchedule = () => {
-    var scheduleUrl =
-      this.baseUrl + 'portal/portal.xsl?x=portal.PortalOutline&lang=en&'
-    scheduleUrl += toUrlString(this.account_data)
-    scheduleUrl +=
-      '&mode=schedule&x=portal.PortalSchedule&x=resource.PortalOptions'
-
-    fetch(scheduleUrl, {
+    fetch(this.scheduleUrl, {
       credentials: 'include'
     })
       .then(response => response.text())
@@ -238,6 +225,10 @@ export default class Backend {
           structureName: responseUserData['Calendar']['ScheduleStructure']['@attributes']['structureName'],
           calendarName: responseUserData['Calendar']['ScheduleStructure']['@attributes']['calendarName']
         }
+
+        const baseInfoUrl = this.baseUrl + 'portal/portal.xsl?x=portal.PortalOutline&lang=en&' + toUrlString(this.accountData)
+        this.gradesUrl = baseInfoUrl + '&mode=grades&x=portal.PortalGrades'
+        this.scheduleUrl = baseInfoUrl + '&mode=schedule&x=portal.PortalSchedule&x=resource.PortalOptions'
       })
   }
 }
