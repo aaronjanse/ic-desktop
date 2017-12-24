@@ -38,8 +38,8 @@
             console.log(recentAssignments)
           })
 
-        this.$store.commit('setStudent', student)
-        this.$router.replace('/recent')
+          this.$store.commit('setStudent', student)
+          this.$router.replace('/recent')
         })
       }
     }
