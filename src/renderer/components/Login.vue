@@ -29,6 +29,7 @@
       signIn () {
         const student = new Student(this.username, this.password, this.school)
         this.$store.commit('setStudent', student)
+        this.$router.replace('/recent')
       }
     }
   }

@@ -1,5 +1,5 @@
 const state = {
-  student: {}
+  student: null
 }
 
 const mutations = {
