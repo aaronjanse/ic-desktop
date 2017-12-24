@@ -2,8 +2,8 @@
   <div>
     <div class="card" v-for="(section, key) in course.sections" v-bind:key="key">
       <h4 class="card-header">{{ section.name }}
-        <span class="badge badge-primary">{{ section.weight | formatAsPercentage }} weight</span>
-        <span class="badge badge-success">{{ section.grade | formatAsPercentage }} score</span>
+        <span class="badge badge-primary section-weight">weight of {{ section.weight }}</span>
+        <span class="badge badge-success section-grade">{{ section.grade | formatAsPercentage }}</span>
       </h4>
       <div class="card-body">
         <table class="table table-striped">
@@ -67,5 +67,9 @@
 
 .percent-column
   width: 20%
+
+.section-grade
+  position: absolute
+  left: 82%
 </style>
 
