@@ -10,6 +10,7 @@ Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.filter('formatCourseName', require('@/../util/helpers').formatCourseName)
+Vue.filter('formatAsPercentage', require('@/../util/helpers').formatAsPercentage)
 
 /* eslint-disable no-new */
 new Vue({
