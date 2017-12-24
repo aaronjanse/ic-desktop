@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <tr v-for="(assignment, key) in recent" v-bind:key="key">
-          <td>{{ assignment.className }}</td>
+          <td>{{ assignment.className | formatCourseName }}</td>
           <td>{{ assignment.assignment.name }}</td>
           <td>{{ assignment.assignment.ptsReceived }} / {{ assignment.assignment.ptsPossible }}</td>
           <td>{{ Math.floor(assignment.assignment.ptsReceived / assignment.assignment.ptsPossible * 100) }}%</td>
