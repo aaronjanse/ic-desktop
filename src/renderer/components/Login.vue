@@ -28,6 +28,9 @@
     methods: {
       signIn () {
         const student = new Student(this.username, this.password, this.school)
+        student.login().then(student.getClasses).then(classes => {
+          console.log(classes)
+        })
         this.$store.commit('setStudent', student)
       }
     }
