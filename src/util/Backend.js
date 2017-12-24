@@ -62,9 +62,8 @@ export default class Backend {
 
   // returns promise of Class[]
   getClasses = () => {
-    let classPromises = this.classRefs.map(classRef => this._fetchClass(classRef))
-
-    return Promise.all(classPromises)
+    let classPromises = this.classRefs.map(this._fetchClass)
+    return Promise.all(classPromises).then(classes_ => classes_.filter(class_ => class_ !== undefined))
   }
 
   // returns promise of Class
@@ -176,6 +175,7 @@ export default class Backend {
   }
 
   _loadSchedule = () => {
+    return fetch(this.scheduleUrl, {
       credentials: 'include',
       headers: {
         cookie: this.cookieString

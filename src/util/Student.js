@@ -6,17 +6,17 @@ export default class Student {
     this.backend = new Backend(username, password, loginUrl)
   }
 
-  login () {
+  login = () => {
     return this.backend.login()
   }
 
   // returns promise of Class[]
-  getClasses () {
+  getClasses = () => {
     return this.backend.getClasses()
   }
 
   // returns promise of [{assignment: Assignment, class: Class}]
-  getRecentAssignments () {
+  getRecentAssignments = () => {
     return this.backend.getRecentAssignments()
   }
 }
