@@ -64,6 +64,7 @@ export default class Backend {
     return Promise.all(classPromises)
   }
 
+  // returns promise of Class
   _fetchClass = (classRef) => {
     return fetch(this.baseUrl + classRef.url, {
       credentials: 'include'
@@ -114,12 +115,8 @@ export default class Backend {
             } else if (row['attribs']['class'] === 'gridCellNormal') {
               // add assignment
               const columns = $(row).children()
-              if (
-                columns
-                  .eq(5)
-                  .text()
-                  .trim() === ''
-              ) {
+              const ptsReceived = columns.eq(5).text()
+              if (ptsReceived === '') {
                 return
               }
               assignments.push(
@@ -130,7 +127,7 @@ export default class Backend {
                     .text(),
                   parseFloat(columns.eq(3).text()),
                   parseFloat(columns.eq(4).text()),
-                  parseFloat(columns.eq(5).text()),
+                  parseFloat(ptsReceived),
                   columns.eq(1).text(),
                   columns.eq(2).text()
                 )
@@ -214,16 +211,18 @@ export default class Backend {
         const response = xmlToJson(xml)
         const responseUserData =
           response['campusRoot']['PortalOutline']['Family']['Student']
+        const studentAttribs = responseUserData['@attributes']
+        const calendarAttribs = responseUserData['Calendar']['ScheduleStructure']['@attributes']
 
         this.accountData = {
-          personID: responseUserData['@attributes']['personID'],
-          studentFirstName: responseUserData['@attributes']['firstName'],
-          studentLastName: responseUserData['@attributes']['lastName'],
-          schoolID: responseUserData['Calendar']['@attributes']['schoolID'],
-          calendarID: responseUserData['Calendar']['@attributes']['calendarID'],
-          structureID: responseUserData['Calendar']['ScheduleStructure']['@attributes']['structureID'],
-          structureName: responseUserData['Calendar']['ScheduleStructure']['@attributes']['structureName'],
-          calendarName: responseUserData['Calendar']['ScheduleStructure']['@attributes']['calendarName']
+          personID: studentAttribs['personID'],
+          studentFirstName: studentAttribs['firstName'],
+          studentLastName: studentAttribs['lastName'],
+          schoolID: calendarAttribs['schoolID'],
+          calendarID: calendarAttribs['calendarID'],
+          structureID: calendarAttribs['structureID'],
+          structureName: calendarAttribs['structureName'],
+          calendarName: calendarAttribs['calendarName']
         }
 
         const baseInfoUrl = this.baseUrl + 'portal/portal.xsl?x=portal.PortalOutline&lang=en&' + toUrlString(this.accountData)
