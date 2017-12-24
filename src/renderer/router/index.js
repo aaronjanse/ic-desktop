@@ -21,6 +21,12 @@ const router = new Router({
       path: '/grades',
       name: 'grades',
       component: require('@/components/Grades').default,
+      children: [
+        {
+          path: ':id',
+          component: require('@/components/Assignments').default
+        }
+      ],
       meta: { protected: true }
     },
     {
