@@ -1,5 +1,6 @@
 <template>
   <div style="margin: 20px">
+    <div class="alert alert-danger" v-if="error">An error occured signing you in.</div>
     <div class="form-group">
       <input v-model="school" type="text" class="form-control" id="school" placeholder="IC url" @keyup.enter="signIn()">
       <small class="form-text text-muted"><strong>What's this?</strong> Enter the URL where you usually access Infinite Campus</small>
@@ -28,13 +29,15 @@
         username: '',
         password: '',
         student: {},
-        inProgress: false
+        inProgress: false,
+        error: false
       }
     },
     methods: {
       signIn () {
         const student = new Student(this.username, this.password, this.school)
         this.inProgress = true
+        this.error = false
         student.login().then(() => {
           student.getClasses().then(classes => {
             this.$store.commit('setCourses', classes)
@@ -48,6 +51,10 @@
 
           localStorage.setItem('url', this.school)
 
+          this.inProgress = false
+        }).catch(err => {
+          console.log(err)
+          this.error = true
           this.inProgress = false
         })
       }
