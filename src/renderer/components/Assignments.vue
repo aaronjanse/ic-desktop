@@ -8,18 +8,16 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Course</th>
-              <th scope="col">Assignment</th>
-              <th scope="col">Score</th>
-              <th scope="col">Percentage</th>
+              <th scope="col" class="assignment-column">Assignment</th>
+              <th scope="col" class="pts-column">Score</th>
+              <th scope="col" class="percent-column">Percentage</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(assignment, key) in section.assignments" v-bind:key="key">
-              <td>{{ course.name }}</td>
-              <td>{{ assignment.name }}</td>
-              <td>{{ assignment.ptsReceived }} / {{ assignment.ptsPossible }}</td>
-              <td>{{ Math.floor(assignment.ptsReceived / assignment.ptsPossible * 100) }}%</td>
+              <td class="assignment-column">{{ assignment.name }}</td>
+              <td class="pts-column">{{ assignment.ptsReceived }} / {{ assignment.ptsPossible }}</td>
+              <td class="percent-column">{{ Math.floor(assignment.ptsReceived / assignment.ptsPossible * 100) }}%</td>
             </tr>
           </tbody>
         </table>
@@ -48,5 +46,14 @@
 
 .card
   margin-bottom: 10px
+
+.assignment-column
+  width: 55%
+
+.pts-column
+  width: 25%
+
+.percent-column
+  width: 20%
 </style>
 
