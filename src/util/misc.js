@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 // used for creating url query strings
 export function toUrlString (obj) {
   var str = []

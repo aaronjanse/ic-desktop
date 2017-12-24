@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import {
   toUrlString,
   xmlToJson
@@ -32,18 +30,18 @@ export default class Backend {
 
   login = () => {
     return fetch(
-        this.verifyUrl + '?' +
+      this.verifyUrl + '?' +
         toUrlString({
           username: this.username,
           password: this.password,
           nonBrowser: true,
           appName: this.appName
         }), {
-          mode: 'no-cors',
-          method: 'GET',
-          credentials: 'include'
-        }
-      )
+        mode: 'no-cors',
+        method: 'GET',
+        credentials: 'include'
+      }
+    )
       .then(this._extractUserData.bind(this))
       .then(this._loadSchedule)
   }
@@ -78,13 +76,13 @@ export default class Backend {
           const $ = cheerio.load(response)
           const gradeTotal = parseFloat(
             $('td.gridInProgressGrade')
-            .last()
-            .children()
-            .last()
-            .children()
-            .last()
-            .text()
-            .slice(0, -1)
+              .last()
+              .children()
+              .last()
+              .children()
+              .last()
+              .text()
+              .slice(0, -1)
           )
           var assignmentRows = $('table')
             .first()
@@ -122,18 +120,18 @@ export default class Backend {
                 // console.log(columns.eq(5).text().trim())
                 if (
                   columns
-                  .eq(5)
-                  .text()
-                  .trim() === ''
+                    .eq(5)
+                    .text()
+                    .trim() === ''
                 ) {
                   return
                 }
                 assignments.push(
                   new Assignment(
                     columns
-                    .eq(0)
-                    .children()
-                    .text(),
+                      .eq(0)
+                      .children()
+                      .text(),
                     parseFloat(columns.eq(3).text()),
                     parseFloat(columns.eq(4).text()),
                     parseFloat(columns.eq(5).text()),
@@ -217,12 +215,12 @@ export default class Backend {
 
   _extractUserData = () => {
     return fetch(
-        this.baseUrl +
+      this.baseUrl +
         'portal/portalOutlineWrapper.xsl?x=portal.PortalOutline&contentType=text/xml&lang=en', {
-          method: 'GET',
-          credentials: 'include'
-        }
-      )
+        method: 'GET',
+        credentials: 'include'
+      }
+    )
       .then(response => response.text())
       .then(xmlResponse => {
         var xml = new DOMParser().parseFromString(xmlResponse, 'text/xml')

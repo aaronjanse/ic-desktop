@@ -1,7 +1,3 @@
-/* eslint-disable */
-
-/* jshint esversion: 6 */
-
 import Backend from './Backend'
 
 // operates Backend

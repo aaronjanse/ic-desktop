@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 export class Class {
   constructor (name, teacher, sections) {
     this.name = name
