@@ -37,7 +37,6 @@ export default class Backend {
           nonBrowser: true,
           appName: this.appName
         }), {
-        mode: 'no-cors',
         method: 'GET',
         credentials: 'include'
       }
