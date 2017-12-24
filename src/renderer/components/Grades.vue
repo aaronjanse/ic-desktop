@@ -3,7 +3,10 @@
     <div class="row">
       <div class="col-3">
         <div class="list-group">
-          <router-link class="list-group-item list-group-item-action" active-class="active" :to="{ path: '/grades/' + key }" v-for="(course, key) in courses" v-bind:key="course.name">{{ course.name | formatCourseName }}</router-link>
+          <router-link class="list-group-item list-group-item-action" active-class="active" :to="{ path: '/grades/' + key }" v-for="(course, key) in courses" v-bind:key="course.name">
+            {{ course.name | formatCourseName }}
+            <span class="badge badge-primary badge-pill pull-right" :class="{ 'badge-light': $route.params.id == key }">{{ course.grade | formatAsPercentage }}</span>
+          </router-link>
         </div>
       </div>
       <div class="col-9">

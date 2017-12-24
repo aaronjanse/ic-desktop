@@ -2,22 +2,31 @@
   <div>
     <div class="card" v-for="(section, key) in course.sections" v-bind:key="key">
       <h4 class="card-header">{{ section.name }}
-        <span class="badge badge-primary">{{ section.weight * 100 }}%</span>
+        <span class="badge badge-primary">{{ section.weight | formatAsPercentage }} weight</span>
+        <span class="badge badge-success">{{ section.grade | formatAsPercentage }} score</span>
       </h4>
       <div class="card-body">
         <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col" class="assignment-column">Assignment</th>
-              <th scope="col" class="pts-column">Score</th>
+              <th scope="col" class="pts-column">Received</th>
+              <th scope="col" class="pts-column">Possible</th>
               <th scope="col" class="percent-column">Percentage</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(assignment, key) in section.assignments" v-bind:key="key">
               <td class="assignment-column">{{ assignment.name }}</td>
-              <td class="pts-column">{{ assignment.ptsReceived }} / {{ assignment.ptsPossible }}</td>
+              <td class="received-column">{{ assignment.ptsReceived }}</td>
+              <td class="possible-column">{{ assignment.ptsPossible }}</td>
               <td class="percent-column">{{ Math.floor(assignment.ptsReceived / assignment.ptsPossible * 100) }}%</td>
+            </tr>
+            <tr class="table-warning">
+              <td class="assignment-column">Totals</td>
+              <td class="possible-column">{{ section.ptsReceived }}</td>
+              <td class="received-column">{{ section.ptsPossible }}</td>
+              <td class="percent-column">{{ section.grade | formatAsPercentage }}</td>
             </tr>
           </tbody>
         </table>
@@ -48,10 +57,13 @@
   margin-bottom: 10px
 
 .assignment-column
-  width: 55%
+  width: 60%
 
-.pts-column
-  width: 25%
+.possible-column
+  width: 10%
+
+.received-column
+  width: 10%
 
 .percent-column
   width: 20%
