@@ -21,7 +21,7 @@
             <li class="nav-item">
               <router-link class="nav-link" active-class="active" :to="{ name: 'attendance' }">Attendance</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item sign-out">
               <a class="nav-link" href="#" @click="signOut()">Sign out</a>
             </li>
           </ul>
@@ -62,4 +62,8 @@ export default {
 .card-app
   border-radius: 0px
   border: none
+
+.sign-out
+  position: absolute
+  right: 2%
 </style>
