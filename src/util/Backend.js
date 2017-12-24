@@ -59,116 +59,117 @@ export default class Backend {
 
   // returns promise of Class[]
   getClasses = () => {
-    let classPromises = []
-    this.classRefs.forEach(classRef => {
-      classPromises.push(fetch(this.baseUrl + classRef.url, {
-        credentials: 'include'
-      })
-        .then(response => response.text())
-        .then(response => {
-          const $ = cheerio.load(response)
-          const gradeTotal = parseFloat(
-            $('td.gridInProgressGrade')
-              .last()
-              .children()
-              .last()
-              .children()
-              .last()
-              .text()
-              .slice(0, -1)
-          )
-          var assignmentRows = $('table')
-            .first()
+    let classPromises = this.classRefs.map(classRef => this._fetchClass(classRef))
+
+    return Promise.all(classPromises)
+  }
+
+  _fetchClass = (classRef) => {
+    return fetch(this.baseUrl + classRef.url, {
+      credentials: 'include'
+    })
+      .then(response => response.text())
+      .then(response => {
+        const $ = cheerio.load(response)
+        const gradeTotal = parseFloat(
+          $('td.gridInProgressGrade')
+            .last()
             .children()
             .last()
             .children()
-            .first()
-            .children()
-            .eq(14)
-            .children()
-            .toArray()
-          assignmentRows.shift()
-          var sections = []
-          var sectionName = null
-          var sectionWeight = null
-          var assignments = null
-          assignmentRows.forEach(row => {
-            if ('class' in row['attribs']) {
-              if ('style' in row['attribs']) {
-                // compile the section
-                if (sectionName === null) {
-                  return
-                }
+            .last()
+            .text()
+            .slice(0, -1)
+        )
+        var assignmentRows = $('table')
+          .first()
+          .children()
+          .last()
+          .children()
+          .first()
+          .children()
+          .eq(14)
+          .children()
+          .toArray()
+        assignmentRows.shift()
+        var sections = []
+        var sectionName = null
+        var sectionWeight = null
+        var assignments = null
+        assignmentRows.forEach(row => {
+          if ('class' in row['attribs']) {
+            if ('style' in row['attribs']) {
+              // compile the section
+              if (sectionName === null) {
+                return
+              }
 
-                sections.push(
-                  new Section(sectionName, sectionWeight, assignments)
-                )
+              sections.push(
+                new Section(sectionName, sectionWeight, assignments)
+              )
 
-                sectionName = null
-                sectionWeight = null
-                assignments = null
-              } else if (row['attribs']['class'] === 'gridCellNormal') {
-                // add assignment
-                const columns = $(row).children()
-                if (
+              sectionName = null
+              sectionWeight = null
+              assignments = null
+            } else if (row['attribs']['class'] === 'gridCellNormal') {
+              // add assignment
+              const columns = $(row).children()
+              if (
+                columns
+                  .eq(5)
+                  .text()
+                  .trim() === ''
+              ) {
+                return
+              }
+              assignments.push(
+                new Assignment(
                   columns
-                    .eq(5)
-                    .text()
-                    .trim() === ''
-                ) {
-                  return
-                }
-                assignments.push(
-                  new Assignment(
-                    columns
-                      .eq(0)
-                      .children()
-                      .text(),
-                    parseFloat(columns.eq(3).text()),
-                    parseFloat(columns.eq(4).text()),
-                    parseFloat(columns.eq(5).text()),
-                    columns.eq(1).text(),
-                    columns.eq(2).text()
-                  )
+                    .eq(0)
+                    .children()
+                    .text(),
+                  parseFloat(columns.eq(3).text()),
+                  parseFloat(columns.eq(4).text()),
+                  parseFloat(columns.eq(5).text()),
+                  columns.eq(1).text(),
+                  columns.eq(2).text()
                 )
-              }
-            } else {
-              const sectionHeaderStr = row['children'][1]['children'][0].data
-              if (sectionHeaderStr.includes('weight')) {
-                const sectionHeaderPieces = sectionHeaderStr.match(
-                  /(.+)\(weight:\s(.+)\)/
-                )
-
-                sectionWeight = parseFloat(sectionHeaderPieces[2]) / 100
-                sectionName = sectionHeaderPieces[1]
-              } else {
-                sectionWeight = null
-                sectionName = sectionHeaderStr
-              }
-              assignments = []
+              )
             }
-          })
-          if (sections.length === 0) {
-            return
+          } else {
+            const sectionHeaderStr = row['children'][1]['children'][0].data
+            if (sectionHeaderStr.includes('weight')) {
+              const sectionHeaderPieces = sectionHeaderStr.match(
+                /(.+)\(weight:\s(.+)\)/
+              )
+
+              sectionWeight = parseFloat(sectionHeaderPieces[2]) / 100
+              sectionName = sectionHeaderPieces[1]
+            } else {
+              sectionWeight = null
+              sectionName = sectionHeaderStr
+            }
+            assignments = []
           }
-          if (sections[0].weight === null) {
-            const sectionWeight = 1 / sections.length
-            sections = sections.map(section => {
-              section.weight = sectionWeight
-              return section
-            })
-          }
-
-          const class_ = new Class(classRef.class_name, classRef.teacher_name, sections)
-
-          console.log(gradeTotal, class_.grade)
-
-          return class_
         })
-        .catch(err => console.error(err)))
-    })
+        if (sections.length === 0) {
+          return
+        }
+        if (sections[0].weight === null) {
+          const sectionWeight = 1 / sections.length
+          sections = sections.map(section => {
+            section.weight = sectionWeight
+            return section
+          })
+        }
 
-    return Promise.all(classPromises)
+        const class_ = new Class(classRef.class_name, classRef.teacher_name, sections)
+
+        console.log(gradeTotal, class_.grade)
+
+        return class_
+      })
+      .catch(err => console.error(err))
   }
 
   _loadSchedule = () => {
