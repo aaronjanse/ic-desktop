@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="form-group">
-      <input v-model="school" type="text" class="form-control" id="school" placeholder="School code">
+      <input v-model="school" type="text" class="form-control" id="school" placeholder="IC url">
+      <small class="form-text text-muted"><strong>What's this?</strong> Enter the URL where you usually access Infinite Campus</small>
+      <small class="form-text text-muted"><strong>Example:</strong> <code>https://yourdistrict.infinitecampus.org/campus/yourdistrict.jsp</code></small>
     </div>
     <div class="form-group">
       <input v-model="username" type="text" class="form-control" id="username" placeholder="Username">
@@ -32,6 +34,7 @@
           console.log(classes)
         })
         this.$store.commit('setStudent', student)
+        this.$router.replace('/recent')
       }
     }
   }
