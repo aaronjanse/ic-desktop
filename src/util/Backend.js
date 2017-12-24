@@ -62,8 +62,31 @@ export default class Backend {
       .then(response => response.text())
       .then(response => {
         const $ = cheerio.load(response)
-        const recentAssignmentsTable = $('.portalTable').eq(1)
-        console.log(recentAssignmentsTable)
+        var recentAssignmentsTable = $('.portalTable').eq(1).children().children().toArray()
+
+        return recentAssignmentsTable.map(rowObj => {
+          const row = $(rowObj)
+          const columns = row.children()
+
+          // const howLongAgo = columns.eq(0).text() + columns.eq(1).text()
+          const courseName = columns.eq(2).text()
+          const assignmentName = columns.eq(3).children().eq(0).text()
+          const ptsReceived = parseFloat(columns.eq(4).text())
+          const ptsPossible = parseFloat(columns.eq(5).text())
+          // const percent = parseFloat(columns.eq(5).text().slice(0, -1))
+
+          // console.log(ptsReceived / ptsPossible, percent)
+
+          const classRef = this.classRefs.filter(ref => ref.class_name.split('-')[0] === courseName.split(' ')[0])[0]
+          const className = classRef.class_name
+
+          const assignment = new Assignment(assignmentName, null, ptsPossible, ptsReceived, null, null)
+
+          return {
+            className: className,
+            assignment: assignment
+          }
+        })
       })
   }
 

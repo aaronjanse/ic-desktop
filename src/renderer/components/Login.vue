@@ -30,8 +30,13 @@
     methods: {
       signIn () {
         const student = new Student(this.username, this.password, this.school)
-        student.login().then(student.getClasses).then(classes => {
-          console.log(classes)
+        student.login().then(() => {
+          student.getClasses().then(classes => {
+            console.log(classes)
+          })
+          student.getRecentAssignments().then(recentAssignments => {
+            console.log(recentAssignments)
+          })
         })
         this.$store.commit('setStudent', student)
         this.$router.replace('/recent')

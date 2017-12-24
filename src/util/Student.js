@@ -15,7 +15,8 @@ export default class Student {
     return this.backend.getClasses()
   }
 
-  // returns promise of [{assignment: Assignment, class: Class}]
+  // returns promise of [{assignment: Assignment, className: string}]
+  // className matches the naming of classes returned by getClasses
   getRecentAssignments = () => {
     return this.backend.getRecentAssignments()
   }
