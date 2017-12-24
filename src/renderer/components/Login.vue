@@ -14,6 +14,7 @@
 </template>
 
 <script>
+  import Student from '@/../util/Student'
   export default {
     name: 'Login',
     data () {
@@ -22,6 +23,12 @@
         username: '',
         password: '',
         student: {}
+      }
+    },
+    methods: {
+      signIn () {
+        const student = new Student(this.username, this.password, this.school)
+        this.$store.commit('setStudent', student)
       }
     }
   }
