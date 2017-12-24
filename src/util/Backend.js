@@ -20,6 +20,10 @@ export default class Backend {
     this.password = password
     this.loginUrl = loginUrl.split('?')[0]
 
+    if (this.loginUrl.indexOf('/campus/portal/') === -1) {
+      this.loginUrl = this.loginUrl.replace('/campus/', '/campus/portal/')
+    }
+
     // derive baseUrl, appName, and verifyUrl from loginUrl
     this.baseUrl = this.loginUrl.split('/')
     this.appName = this.baseUrl.pop().split('.')[0]
@@ -218,6 +222,7 @@ export default class Backend {
     )
       .then(response => response.text())
       .then(xmlResponse => {
+        // console.log('[Backend.js:221] ' + xmlResponse)
         var xml = new DOMParser().parseFromString(xmlResponse, 'text/xml')
         const response = xmlToJson(xml)
         const responseUserData =
