@@ -37,9 +37,10 @@
           student.getRecentAssignments().then(recentAssignments => {
             console.log(recentAssignments)
           })
-        })
+
         this.$store.commit('setStudent', student)
         this.$router.replace('/recent')
+        })
       }
     }
   }
