@@ -37,10 +37,10 @@
         this.inProgress = true
         student.login().then(() => {
           student.getClasses().then(classes => {
-            console.log(classes)
+            this.$store.commit('setCourses', classes)
           })
           student.getRecentAssignments().then(recentAssignments => {
-            console.log(recentAssignments)
+            this.$store.commit('setRecentAssignments', recentAssignments)
           })
 
           this.$store.commit('setStudent', student)
