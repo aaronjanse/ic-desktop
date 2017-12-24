@@ -20,7 +20,6 @@ const courseNameWordPresets = {
 
 export function formatCourseName (str) {
   return str.split(/\s(.+)/)[1].replace(/\w\S*/g, (txt) => {
-    console.log(txt)
     if (courseNameWordPresets.hasOwnProperty(txt.toLowerCase())) {
       return courseNameWordPresets[txt.toLowerCase()]
     } else {
