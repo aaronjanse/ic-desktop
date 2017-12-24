@@ -43,7 +43,7 @@ export default class Backend {
       }
     )
       .then(this._extractUserData.bind(this))
-      .then(this._loadSchedule)
+      .then(this._loadSchedule.bind(this))
   }
 
   getRecentAssignments = () => {
