@@ -45,6 +45,9 @@
           student.getRecentAssignments().then(recentAssignments => {
             this.$store.commit('setRecentAssignments', recentAssignments)
           })
+          student.getCalendar().then(attendance => {
+            console.log(attendance)
+          })
 
           this.$store.commit('setStudent', student)
           this.$router.replace('/recent')

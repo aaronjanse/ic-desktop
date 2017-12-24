@@ -20,4 +20,37 @@ export default class Student {
   getRecentAssignments = () => {
     return this.backend.getRecentAssignments()
   }
+
+  /* returns
+  {
+    "firstDate": {
+      "day": int,
+      "month": int, // 0-indexed,
+      "year": int
+    },
+    "lastDate": {
+      "day": int,
+      "month": int, // 0-indexed,
+      "year": int
+    },
+    "nonInstructionalDays": [
+      {
+        "day": int,
+        "month": int, // 0-indexed,
+        "year": int
+      }
+    ],
+    "daysAbsent": [
+      {
+        "day": int,
+        "month": int, // 0-indexed,
+        "year": int,
+        "reason": str // 1 letter
+      }
+    ]
+  }
+  */
+  getCalendar = () => {
+    return this.backend.getCalendar()
+  }
 }

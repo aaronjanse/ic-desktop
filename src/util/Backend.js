@@ -52,6 +52,56 @@ export default class Backend {
       .then(this._loadSchedule)
   }
 
+  getCalendar = () => {
+    return fetch(this.attendanceUrl, {
+      credentials: 'include',
+      headers: {
+        cookie: this.cookieString
+      }
+    })
+      .then(response => response.text())
+      .then(response => {
+        const $ = cheerio.load(response)
+        const code = $($('script').toArray()[18]).html()
+        console.log(code)
+        const [, firstMonth, firstDay, firstYear] = /var minDate = '(\d\d)\/(\d\d)\/(\d\d\d\d)';/g.exec(code)
+        const [, lastMonth, lastDay, lastYear] = /var maxDate = '(\d\d)\/(\d\d)\/(\d\d\d\d)';/g.exec(code)
+
+        const nonInstructionalDays = code.match(/nonInstructionalDays\[\d+\] = '.+?';/g).map(str => {
+          const [, month, day, year] = /'(\d\d)\/(\d\d)\/(\d\d\d\d)'/g.exec(str)
+          return {
+            day: parseInt(day),
+            month: parseInt(month) - 1,
+            year: parseInt(year)
+          }
+        })
+        const daysAbsent = code.match(/daysAbsent\[\d+\] = '.+?';/g).map(str => {
+          const [, month, day, year, reason] = /'(\d\d)\/(\d\d)\/(\d\d\d\d)_(.)'/g.exec(str)
+          return {
+            day: parseInt(day),
+            month: parseInt(month) - 1,
+            year: parseInt(year),
+            reason: reason
+          }
+        })
+
+        return {
+          firstDate: {
+            day: parseInt(firstDay),
+            month: parseInt(firstMonth) - 1,
+            year: parseInt(firstYear)
+          },
+          lastDate: {
+            day: parseInt(lastDay),
+            month: parseInt(lastMonth) - 1,
+            year: parseInt(lastYear)
+          },
+          nonInstructionalDays: nonInstructionalDays,
+          daysAbsent: daysAbsent
+        }
+      })
+  }
+
   getRecentAssignments = () => {
     return fetch(this.gradesUrl, {
       credentials: 'include',
@@ -270,6 +320,7 @@ export default class Backend {
         const baseInfoUrl = this.baseUrl + 'portal/portal.xsl?x=portal.PortalOutline&lang=en&' + toUrlString(this.accountData)
         this.gradesUrl = baseInfoUrl + '&mode=grades&x=portal.PortalGrades'
         this.scheduleUrl = baseInfoUrl + '&mode=schedule&x=portal.PortalSchedule&x=resource.PortalOptions'
+        this.attendanceUrl = baseInfoUrl + '&mode=attendance&x=portal.PortalAttendance'
       })
   }
 }
