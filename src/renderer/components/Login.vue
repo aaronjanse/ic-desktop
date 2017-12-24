@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="form-group">
-      <input v-model="school" type="text" class="form-control" id="school" placeholder="School code">
+      <input v-model="school" type="text" class="form-control" id="school" placeholder="IC url">
     </div>
     <div class="form-group">
       <input v-model="username" type="text" class="form-control" id="username" placeholder="Username">
