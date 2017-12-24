@@ -54,7 +54,10 @@ export default class Backend {
 
   getRecentAssignments = () => {
     return fetch(this.gradesUrl, {
-      credentials: 'include'
+      credentials: 'include',
+      headers: {
+        cookie: this.cookieString
+      }
     })
       .then(response => response.text())
       .then(response => {
