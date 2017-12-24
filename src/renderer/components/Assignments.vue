@@ -20,7 +20,7 @@
               <td class="assignment-column">{{ assignment.name }}</td>
               <td class="received-column">{{ assignment.ptsReceived }}</td>
               <td class="possible-column">{{ assignment.ptsPossible }}</td>
-              <td class="percent-column">{{ Math.floor(assignment.ptsReceived / assignment.ptsPossible * 100) }}%</td>
+              <td class="percent-column">{{ Math.floor(assignment.grade * 100) }}%</td>
             </tr>
             <tr class="table-warning">
               <td class="assignment-column">Totals</td>
