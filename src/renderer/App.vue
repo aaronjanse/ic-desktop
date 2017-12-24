@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="main" class="container">
+    <div id="main">
       <div class="card">
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
@@ -34,6 +34,7 @@ export default {
   .container
     max-width: 730px
 
-#main
-  margin-top: 20px
+.card
+  border-radius: 0px
+  border: none
 </style>
