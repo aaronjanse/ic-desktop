@@ -20,7 +20,7 @@ export default class Backend {
     this.password = password
     this.loginUrl = loginUrl
 
-    // derive `appName` and `verifyUrl` from `loginUrl`
+    // derive baseUrl, appName, and verifyUrl from loginUrl
     this.baseUrl = loginUrl.split('/')
     this.appName = this.baseUrl.pop().split('.')[0]
     this.baseUrl.pop()
