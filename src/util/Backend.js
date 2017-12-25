@@ -63,7 +63,6 @@ export default class Backend {
       .then(response => {
         const $ = cheerio.load(response)
         const code = $($('script').toArray()[18]).html()
-        console.log(code)
         const [, firstMonth, firstDay, firstYear] = /var minDate = '(\d\d)\/(\d\d)\/(\d\d\d\d)';/g.exec(code)
         const [, lastMonth, lastDay, lastYear] = /var maxDate = '(\d\d)\/(\d\d)\/(\d\d\d\d)';/g.exec(code)
 
@@ -298,7 +297,6 @@ export default class Backend {
     )
       .then(response => response.text())
       .then(xmlResponse => {
-        // console.log('[Backend.js:221] ' + xmlResponse)
         var xml = new DOMParser().parseFromString(xmlResponse, 'text/xml')
         const response = xmlToJson(xml)
         const responseUserData =
