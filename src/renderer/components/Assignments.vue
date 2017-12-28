@@ -22,7 +22,7 @@
               <td class="possible-column">{{ assignment.ptsPossible }}</td>
               <td class="percent-column">{{ Math.floor(assignment.grade * 100) }}%</td>
             </tr>
-            <tr class="table-warning">
+            <tr class="table-warning totals-row">
               <td class="assignment-column">Totals</td>
               <td class="possible-column">{{ section.ptsReceived }}</td>
               <td class="received-column">{{ section.ptsPossible }}</td>
@@ -71,5 +71,8 @@
 .section-grade
   position: absolute
   left: 82%
+
+.totals-row > td
+  font-weight: bold
 </style>
 
