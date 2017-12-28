@@ -18,9 +18,9 @@
             <li class="nav-item">
               <router-link class="nav-link" active-class="active" :to="{ name: 'grades' }">Grades</router-link>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <router-link class="nav-link" active-class="active" :to="{ name: 'attendance' }">Attendance</router-link>
-            </li>
+            </li> -->
             <li class="nav-item sign-out">
               <a class="nav-link" href="#" @click="signOut()">Sign out</a>
             </li>
