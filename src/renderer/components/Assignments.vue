@@ -24,8 +24,8 @@
             </tr>
             <tr class="table-warning totals-row">
               <td class="assignment-column">Totals</td>
-              <td class="possible-column">{{ section.ptsReceived }}</td>
-              <td class="received-column">{{ section.ptsPossible }}</td>
+              <td class="received-column">{{ section.ptsReceived }}</td>
+              <td class="possible-column">{{ section.ptsPossible }}</td>
               <td class="percent-column">{{ section.grade | formatAsPercentage }}</td>
             </tr>
           </tbody>
