@@ -10,8 +10,8 @@
           <thead>
             <tr>
               <th scope="col" class="assignment-column">Assignment</th>
-              <th scope="col" class="pts-column">Received</th>
-              <th scope="col" class="pts-column">Possible</th>
+              <th scope="col" class="received-column">Received</th>
+              <th scope="col" class="possible-column">Possible</th>
               <th scope="col" class="percent-column">Percentage</th>
             </tr>
           </thead>
