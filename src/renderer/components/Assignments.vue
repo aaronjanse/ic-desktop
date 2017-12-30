@@ -10,6 +10,7 @@
           <thead>
             <tr>
               <th scope="col" class="assignment-column">Assignment</th>
+              <th scope="col" class="weight-column">Weight</th>
               <th scope="col" class="received-column">Received</th>
               <th scope="col" class="possible-column">Possible</th>
               <th scope="col" class="percent-column">Percentage</th>
@@ -18,12 +19,14 @@
           <tbody>
             <tr v-for="(assignment, key) in section.assignments" v-bind:key="key">
               <td class="assignment-column">{{ assignment.name }}</td>
+              <td class="weight-column">{{ assignment.weight }}</td>
               <td class="received-column">{{ assignment.ptsReceived }}</td>
               <td class="possible-column">{{ assignment.ptsPossible }}</td>
               <td class="percent-column">{{ assignment.grade | formatAsPercentage }}</td>
             </tr>
             <tr class="table-warning totals-row">
               <td class="assignment-column">Totals</td>
+              <td class="weight-column"></td>
               <td class="received-column">{{ section.ptsReceived }}</td>
               <td class="possible-column">{{ section.ptsPossible }}</td>
               <td class="percent-column">{{ section.grade | formatAsPercentage }}</td>
@@ -56,11 +59,14 @@
 .card
   margin-bottom: 10px
 
-.received-column, .possible-column, .percent-column
+.received-column, .possible-column, .percent-column, .weight-column
   text-align: right
 
 .assignment-column
-  width: 60%
+  width: 55%
+
+.weight-column
+  width: 10%
 
 .possible-column
   width: 10%
@@ -69,11 +75,15 @@
   width: 10%
 
 .percent-column
-  width: 20%
+  width: 15%
+
+.section-weight
+  position: absolute
+  right: 39%
 
 .section-grade
   position: absolute
-  left: 82%
+  right: 2%
 
 .totals-row > td
   font-weight: bold
