@@ -59,6 +59,7 @@
     "axios": "^0.16.1",
     "bootstrap": "^4.0.0-beta.2",
     "cheerio-without-node-native": "^0.20.2",
+    "electron-updater": "^2.17.8",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.2.1",
     "popper.js": "^1.12.9",
