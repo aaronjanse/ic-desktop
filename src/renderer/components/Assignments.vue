@@ -56,6 +56,9 @@
 .card
   margin-bottom: 10px
 
+.received-column, .possible-column, .percent-column
+  text-align: right
+
 .assignment-column
   width: 60%
 
