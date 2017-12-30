@@ -2,6 +2,10 @@
 
 > Desktop client for InfiniteCampus
 
+![View Recent Assignments](screenshot_recent.png)
+
+![View Grade Details](screenshot_grades.png)
+
 #### Build Setup
 
 ``` bash
