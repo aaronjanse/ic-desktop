@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Aaron Janse <gitduino@gmail.com>",
   "description": "Desktop client for InfiniteCampus",
-  "license": "APGLv3.0",
+  "license": "AGPL-3.0-only",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
