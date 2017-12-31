@@ -14,7 +14,7 @@
           <td>{{ assignment.className | formatCourseName }}</td>
           <td>{{ assignment.assignment.name }}</td>
           <td>{{ assignment.assignment.ptsReceived }} / {{ assignment.assignment.ptsPossible }}</td>
-          <td>{{ assignment.assignment.grade | formatAsPercentage}}</td>
+          <td class="percentage">{{ assignment.assignment.grade | formatAsPercentage}}</td>
         </tr>
       </tbody>
     </table>
@@ -34,3 +34,8 @@
     }
   }
 </script>
+
+<style lang="sass" scoped>
+.percentage
+  text-align: right
+</style>
