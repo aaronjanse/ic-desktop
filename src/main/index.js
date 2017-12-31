@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, Menu } from 'electron'
+import { app, BrowserWindow, Menu, dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 /**
@@ -36,6 +36,7 @@ function createWindow () {
     label: 'ic-desktop',
     submenu: [
       { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
+      { label: 'Check for Updates', click: checkForUpdates },
       { type: 'separator' },
       { label: 'Quit',
         accelerator: 'Command+Q',
@@ -76,10 +77,73 @@ app.on('activate', () => {
   }
 })
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
+let updater
+autoUpdater.autoDownload = false
+
+let manuallyUpdating = false
+
+autoUpdater.on('error', (event, error) => {
+  const errorString = (error.stack || error).toString()
+  if (errorString.indexOf('dev-app-update.yml not found') === -1) {
+    dialog.showErrorBox('Error: ', error == null ? 'unknown' : errorString)
+  } else if (manuallyUpdating) {
+    dialog.showMessageBox({
+      title: 'Updating not Available',
+      message: 'Updating not Available in Dev Mode'
+    })
+  }
 })
 
+autoUpdater.on('update-available', () => {
+  dialog.showMessageBox({
+    type: 'info',
+    title: 'Found Updates',
+    message: 'Found updates, do you want update now?',
+    buttons: ['Sure', 'No']
+  }, (buttonIndex) => {
+    if (buttonIndex === 0) {
+      autoUpdater.downloadUpdate()
+    } else {
+      updater.enabled = true
+      updater = null
+    }
+  })
+  manuallyUpdating = false
+})
+
+autoUpdater.on('update-not-available', () => {
+  if (manuallyUpdating) {
+    dialog.showMessageBox({
+      title: 'No Updates',
+      message: 'Current version is up-to-date.'
+    })
+    updater.enabled = true
+    updater = null
+    manuallyUpdating = false
+  }
+})
+
+autoUpdater.on('update-downloaded', () => {
+  dialog.showMessageBox({
+    title: 'Install Updates',
+    message: 'Updates downloaded, application will quit for update...'
+  }, () => {
+    setImmediate(() => autoUpdater.quitAndInstall())
+  })
+  manuallyUpdating = false
+})
+
+// export this to MenuItem click callback
+function checkForUpdates (menuItem, focusedWindow, event) {
+  updater = menuItem
+  updater.enabled = false
+  manuallyUpdating = true
+  autoUpdater.checkForUpdates()
+}
+
 app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+  if (process.env.NODE_ENV === 'production') {
+    manuallyUpdating = false
+    autoUpdater.checkForUpdates()
+  }
 })
