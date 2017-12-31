@@ -14,7 +14,7 @@
           <td>{{ assignment.className | formatCourseName }}</td>
           <td>{{ assignment.assignment.name }}</td>
           <td>{{ assignment.assignment.ptsReceived }} / {{ assignment.assignment.ptsPossible }}</td>
-          <td>{{ Math.floor(assignment.assignment.ptsReceived / assignment.assignment.ptsPossible * 100) }}%</td>
+          <td>{{ assignment.assignment.grade | formatAsPercentage}}</td>
         </tr>
       </tbody>
     </table>
