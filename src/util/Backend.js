@@ -1,6 +1,7 @@
 import {
   toUrlString,
-  xmlToJson
+  xmlToJson,
+  LoginException
 } from './misc'
 
 import {
@@ -47,6 +48,17 @@ export default class Backend {
     )
       .then(response => {
         this.cookieString = response.headers._headers['set-cookie'].map(cookieStr => cookieStr.split(';')[0]).join('; ')
+        return response
+      })
+      .then(response => response.text())
+      .then(response => {
+        if (response.indexOf('password-error') !== -1) {
+          return Promise.reject(new LoginException('incorrect username')) // that's correct; ic throws a password-error for an incorrect username
+        } else if (response.indexOf('ldap: Incorrect Username and/or Password') !== -1) {
+          return Promise.reject(new LoginException('incorrect password'))
+        } else if (response.indexOf('error') !== -1) {
+          return Promise.reject(new LoginException('unknown'))
+        }
       })
       .then(this._extractUserData)
       .then(this._loadSchedule)

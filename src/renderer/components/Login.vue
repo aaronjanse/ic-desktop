@@ -1,6 +1,6 @@
 <template>
   <div style="margin: 20px">
-    <div class="alert alert-danger" v-if="error">An error occured signing you in.</div>
+    <div class="alert alert-danger" v-if="error">{{ error }}</div>
     <div class="form-group">
       <input v-model="school" type="text" class="form-control" id="school" placeholder="IC url" @keyup.enter="signIn()">
       <small class="form-text text-muted"><strong>What's this?</strong> Enter the URL where you usually access Infinite Campus</small>
@@ -56,8 +56,17 @@
 
           this.inProgress = false
         }).catch(err => {
-          console.log(err)
-          this.error = true
+          if (err.value === 'incorrect username') {
+            this.error = 'An error occured signing you in: incorrect username'
+          } else if (err.value === 'incorrect password') {
+            this.error = 'An error occured signing you in: incorrect password'
+          } else if (err.value === 'unknown') {
+            this.error = 'An error occured signing you in.'
+          } else {
+            this.error = 'An unrecognized error occured signing you in.'
+            console.error(err)
+          }
+
           this.inProgress = false
         })
       }
