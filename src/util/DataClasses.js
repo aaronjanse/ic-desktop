@@ -1,8 +1,9 @@
 export class Class {
-  constructor (name, teacher, sections) {
+  constructor (name, teacher, sections, isFinalized) {
     this.name = name
     this.teacher = teacher
     this.sections = sections
+    this.isFinalized = isFinalized
   }
 
   get grade () {

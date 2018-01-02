@@ -168,15 +168,14 @@ export default class Backend {
       .then(response => response.text())
       .then(response => {
         const $ = cheerio.load(response)
-        const gradeTotal = parseFloat(
-          $('td.gridInProgressGrade, td.gridFinalGrade')
-            .last()
-            .children()
-            .last()
-            .children()
-            .last()
-            .text()
-            .slice(0, -1)
+        const gradeBox = $('td.gridInProgressGrade, td.gridFinalGrade').last()
+        const gradeTotal = parseFloat(gradeBox
+          .children()
+          .last()
+          .children()
+          .last()
+          .text()
+          .slice(0, -1)
         )
         var assignmentRows = $('table')
           .first()
@@ -249,7 +248,9 @@ export default class Backend {
           return
         }
 
-        const class_ = new Class(classRef.class_name, classRef.teacher_name, sections)
+        const isFinalized = gradeBox.attr('class') === 'gridFinalGrade'
+
+        const class_ = new Class(classRef.class_name, classRef.teacher_name, sections, isFinalized)
 
         const diffCalcActual = gradeTotal - Math.floor(class_.grade * 10000) / 100
         if (diffCalcActual !== 0) {
