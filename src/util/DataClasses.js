@@ -10,22 +10,23 @@ export class Class {
       (total, section) => total + section.weight,
       0
     )
-    return this.sections.reduce(
-      (total, section) => total + section.grade * section.weight,
-      0
-    ) / weightSum
+    if (weightSum === 0) {
+      return this.ptsReceived / this.ptsPossible
+    } else {
+      return this.sections.reduce((total, section) => total + section.grade * section.weight, 0) / weightSum
+    }
   }
 
   get ptsPossible () {
     return this.sections.reduce(
-      (total, section) => total + section.ptsPossible * section.weight,
+      (total, section) => total + section.ptsPossible,
       0
     )
   }
 
   get ptsReceived () {
     return this.sections.reduce(
-      (total, section) => total + section.ptsReceived * section.weight,
+      (total, section) => total + section.ptsReceived,
       0
     )
   }

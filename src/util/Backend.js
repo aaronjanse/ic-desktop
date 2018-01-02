@@ -248,13 +248,6 @@ export default class Backend {
         if (sections.length === 0) {
           return
         }
-        if (sections[0].weight === null) {
-          const sectionWeight = 1 / sections.length
-          sections = sections.map(section => {
-            section.weight = sectionWeight
-            return section
-          })
-        }
 
         const class_ = new Class(classRef.class_name, classRef.teacher_name, sections)
 
