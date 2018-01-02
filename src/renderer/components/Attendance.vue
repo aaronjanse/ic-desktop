@@ -1,6 +1,24 @@
 <template>
   <div>
-    <h1>Attendance</h1>
+    <h3 class="text-center">January</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col">Sunday</div>
+        <div class="col">Monday</div>
+        <div class="col">Tuesday</div>
+        <div class="col">Wednesday</div>
+        <div class="col">Thursday</div>
+        <div class="col">Friday</div>
+        <div class="col">Saturday</div>
+      </div>
+      <div class="row" v-for="rowNum in 5" v-bind:key="rowNum">
+        <div class="col border" v-for="colNum in 7" v-bind:key="colNum" v-bind:class="{'bg-light': colNum === 1 || colNum == 7 || (rowNum - 1) * 7 + colNum > 31}">
+          <div class="day">
+            <span>{{ (rowNum - 1) * 7 + colNum }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,3 +27,8 @@
     name: 'Attendance'
   }
 </script>
+
+<style lang="sass" scoped>
+.day
+  height: 4em
+</style>
