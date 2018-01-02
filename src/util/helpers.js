@@ -1,5 +1,5 @@
 export function formatAsPercentage (num, leftpad = 7) {
-  num = Math.round(num * 10000) / 100 + ''
+  num = Math.floor(num * 10000) / 100 + ''
   var value = Number(num)
   var res = num.split('.')
   if (num.indexOf('.') === -1) {
@@ -15,7 +15,8 @@ export function formatAsPercentage (num, leftpad = 7) {
 const courseNameWordPresets = {
   'ap': 'AP',
   'hon': 'Honors',
-  'h': 'Honors'
+  'h': 'Honors',
+  'pe': 'PE'
 }
 
 export function formatCourseName (str) {

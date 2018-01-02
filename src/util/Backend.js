@@ -1,6 +1,7 @@
 import {
   toUrlString,
-  xmlToJson
+  xmlToJson,
+  LoginException
 } from './misc'
 
 import {
@@ -47,6 +48,17 @@ export default class Backend {
     )
       .then(response => {
         this.cookieString = response.headers._headers['set-cookie'].map(cookieStr => cookieStr.split(';')[0]).join('; ')
+        return response
+      })
+      .then(response => response.text())
+      .then(response => {
+        if (response.indexOf('password-error') !== -1) {
+          return Promise.reject(new LoginException('incorrect username')) // that's correct; ic throws a password-error for an incorrect username
+        } else if (response.indexOf('ldap: Incorrect Username and/or Password') !== -1) {
+          return Promise.reject(new LoginException('incorrect password'))
+        } else if (response.indexOf('error') !== -1) {
+          return Promise.reject(new LoginException('unknown'))
+        }
       })
       .then(this._extractUserData)
       .then(this._loadSchedule)
@@ -156,15 +168,14 @@ export default class Backend {
       .then(response => response.text())
       .then(response => {
         const $ = cheerio.load(response)
-        const gradeTotal = parseFloat(
-          $('td.gridInProgressGrade')
-            .last()
-            .children()
-            .last()
-            .children()
-            .last()
-            .text()
-            .slice(0, -1)
+        const gradeBox = $('td.gridInProgressGrade, td.gridFinalGrade').last()
+        const gradeTotal = parseFloat(gradeBox
+          .children()
+          .last()
+          .children()
+          .last()
+          .text()
+          .slice(0, -1)
         )
         var assignmentRows = $('table')
           .first()
@@ -236,17 +247,17 @@ export default class Backend {
         if (sections.length === 0) {
           return
         }
-        if (sections[0].weight === null) {
-          const sectionWeight = 1 / sections.length
-          sections = sections.map(section => {
-            section.weight = sectionWeight
-            return section
-          })
+
+        const isFinalized = gradeBox.attr('class') === 'gridFinalGrade'
+
+        const class_ = new Class(classRef.class_name, classRef.teacher_name, sections, isFinalized)
+
+        const diffCalcActual = gradeTotal - Math.floor(class_.grade * 10000) / 100
+        if (diffCalcActual !== 0) {
+          console.error('Calculated grade does not match scraped grade.')
+          console.log('calculated grade: ' + Math.floor(class_.grade * 10000) / 100)
+          console.log('scraped grade: ' + gradeTotal)
         }
-
-        const class_ = new Class(classRef.class_name, classRef.teacher_name, sections)
-
-        console.log(gradeTotal, class_.grade)
 
         return class_
       })

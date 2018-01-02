@@ -66,4 +66,7 @@ export default {
 .sign-out
   position: absolute
   right: 2%
+
+.sign-out a:focus, .sign-out a:hover
+  border-color: transparent !important
 </style>

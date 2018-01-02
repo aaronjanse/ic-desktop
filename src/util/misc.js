@@ -52,3 +52,11 @@ export function xmlToJson (xml) {
   }
   return obj
 }
+
+export function LoginException (value) {
+  this.value = value
+  this.message = 'error logging in'
+  this.toString = function () {
+    return `${this.message}: ${this.value}`
+  }
+}
