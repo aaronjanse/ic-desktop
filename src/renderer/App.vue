@@ -53,6 +53,7 @@ export default {
 
 <style lang="sass">
 @import "~bootstrap/scss/bootstrap"
+@import "assets/sass/switch"
 
 /* Customize container */
 @media (min-width: 768px)

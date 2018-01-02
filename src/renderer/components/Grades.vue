@@ -7,6 +7,12 @@
             {{ course.name | formatCourseName }}
             <span class="badge badge-primary badge-pill pull-right" :class="{ 'badge-light': $route.params.id == key }">{{ course.grade | formatAsPercentage }}</span>
           </router-link>
+          <div class="form-group mt-3">
+            <span class="switch switch-sm">
+              <input type="checkbox" v-model="calculatorMode" class="switch" id="switch-small">
+              <label for="switch-small">Calculator mode</label>
+            </span>
+          </div>
         </div>
       </div>
       <div class="col-9">
@@ -25,6 +31,14 @@
       },
       courses () {
         return this.$store.state.Student.courses
+      },
+      calculatorMode: {
+        get () {
+          return this.$store.state.Settings.calculatorMode
+        },
+        set (value) {
+          this.$store.commit('setCalculatorMode', value)
+        }
       }
     }
   }

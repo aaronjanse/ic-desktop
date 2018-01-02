@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="alert alert-warning" v-if="calculatorMode">
+      <small><strong><i class="fa fa-calculator"></i> You are in calculator mode.</strong> You can locally edit your grades to preview changes.</small>
+    </div>
     <div class="card" v-for="(section, key) in course.sections" v-bind:key="key">
       <h4 class="card-header">{{ section.name }}
         <span class="badge badge-primary weight-badge">weight of {{ section.weight }}</span>
@@ -44,6 +47,9 @@
     computed: {
       course () {
         return this.$store.state.Student.courses[this.$route.params.id]
+      },
+      calculatorMode () {
+        return this.$store.state.Settings.calculatorMode
       }
     }
   }
