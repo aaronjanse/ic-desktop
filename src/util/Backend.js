@@ -169,7 +169,7 @@ export default class Backend {
       .then(response => {
         const $ = cheerio.load(response)
         const gradeTotal = parseFloat(
-          $('td.gridInProgressGrade')
+          $('td.gridInProgressGrade, td.gridFinalGrade')
             .last()
             .children()
             .last()
