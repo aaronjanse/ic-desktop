@@ -251,7 +251,12 @@ export default class Backend {
 
         const class_ = new Class(classRef.class_name, classRef.teacher_name, sections)
 
-        console.log(gradeTotal, class_.grade)
+        const diffCalcActual = gradeTotal - Math.floor(class_.grade * 10000) / 100
+        if (diffCalcActual !== 0) {
+          console.error('Calculated grade does not match scraped grade.')
+          console.log('calculated grade: ' + Math.floor(class_.grade * 10000) / 100)
+          console.log('scraped grade: ' + gradeTotal)
+        }
 
         return class_
       })
