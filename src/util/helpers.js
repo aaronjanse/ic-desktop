@@ -15,7 +15,8 @@ export function formatAsPercentage (num, leftpad = 7) {
 const courseNameWordPresets = {
   'ap': 'AP',
   'hon': 'Honors',
-  'h': 'Honors'
+  'h': 'Honors',
+  'pe': 'PE'
 }
 
 export function formatCourseName (str) {
