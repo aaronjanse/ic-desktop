@@ -5,10 +5,10 @@
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs" v-if="!student">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Sign in</a>
+              <router-link class="nav-link active" active-class="active" :to="{ name: 'login' }">Sign in</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <router-link class="nav-link" active-class="active" :to="{ name: 'about' }">About</router-link>
             </li>
           </ul>
           <ul class="nav nav-tabs card-header-tabs" v-else>
