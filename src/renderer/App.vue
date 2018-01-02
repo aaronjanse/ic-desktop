@@ -5,7 +5,7 @@
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs" v-if="!student">
             <li class="nav-item">
-              <router-link class="nav-link active" active-class="active" :to="{ name: 'login' }">Sign in</router-link>
+              <router-link class="nav-link" active-class="active" :to="{ name: 'login' }">Sign in</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" active-class="active" :to="{ name: 'about' }">About</router-link>
