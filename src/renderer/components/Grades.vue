@@ -5,7 +5,7 @@
         <div class="list-group">
           <router-link class="list-group-item list-group-item-action" active-class="active" :to="{ path: '/grades/' + key }" v-for="(course, key) in courses" v-bind:key="course.name">
             {{ course.name | formatCourseName }}
-            <span class="badge badge-primary badge-pill pull-right" :class="{ 'badge-light': $route.params.id == key }">{{ course.grade | formatAsPercentage }}</span>
+            <span class="badge badge-primary badge-pill pull-right course-grade" :class="{ 'badge-light': $route.params.id == key }">{{ course.grade | formatAsPercentage }}</span>
           </router-link>
         </div>
       </div>
@@ -33,5 +33,8 @@
 <style lang="sass" scoped>
 .list-group
   font-size: 0.7rem
+
+.course-grade
+  width: 5.5em
 </style>
 
