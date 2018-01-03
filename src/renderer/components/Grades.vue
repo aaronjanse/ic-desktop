@@ -5,9 +5,11 @@
         <div class="list-group">
           <router-link class="list-group-item list-group-item-action" active-class="active" :to="{ path: '/grades/' + key }" v-for="(course, key) in courses" v-bind:key="course.name">
             {{ course.name | formatCourseName }}
-            <span class="badge badge-primary badge-pill pull-right course-grade" :class="{ 'badge-light': $route.params.id == key }">
-              <span class="pull-left">{{course.letterGrade}}</span>
-              <span class="pull-right">{{ course.grade | formatAsPercentage }}</span>
+            <span class="badge badge-primary badge-pill pull-right course-letter-grade text-left" :class="{ 'badge-light': $route.params.id == key }">
+              {{course.letterGrade}}
+            </span>
+            <span class="badge badge-primary badge-pill pull-right course-percent-grade text-right" :class="{ 'badge-light': $route.params.id == key }">
+              {{ course.grade | formatAsPercentage }}
             </span>
             <i class="fa fa-lock pull-right finialized-icon" title="Finalized" v-bind:style="{visibility: course.isFinalized ? 'visible' : 'hidden'}"></i>
          </router-link>
@@ -38,8 +40,12 @@
 .list-group
   font-size: 0.7rem
 
-.course-grade
-  width: 7.5em
+.course-percent-grade
+  width: 5.5em
+
+.course-letter-grade
+  width: 2.5em
+  margin-left: 0.75em
 
 .finialized-icon
   margin-right: 0.75em
