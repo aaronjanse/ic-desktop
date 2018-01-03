@@ -1,9 +1,9 @@
 <template>
   <div class="" style="margin-top: 10px">
     <div class="row">
-      <div class="col-3">
+      <div class="classes">
         <div class="list-group">
-          <router-link class="list-group-item list-group-item-action" active-class="active" :to="{ path: '/grades/' + key }" v-for="(course, key) in courses" v-bind:key="course.name">
+          <router-link class="list-group-item list-group-item-action class-row" active-class="active" :to="{ path: '/grades/' + key }" v-for="(course, key) in courses" v-bind:key="course.name">
             {{ course.name | formatCourseName }}
             <span class="badge badge-primary badge-pill course-letter-grade text-left" :class="{ 'badge-light': $route.params.id == key }">
               {{course.letterGrade}}
@@ -15,7 +15,7 @@
          </router-link>
         </div>
       </div>
-      <div class="col-9">
+      <div class="details">
         <router-view></router-view>
       </div>
     </div>
@@ -37,7 +37,17 @@
 </script>
 
 <style lang="sass" scoped>
+.classes
+  width: 23.5% !important
+  margin-left: 2.5%
+
+.details
+  position: absolute
+  right: 2.5%
+  width: 68.5%
+
 .list-group
+  width: 100%
   font-size: 0.7rem
 
 .course-percent-grade
@@ -53,5 +63,22 @@
 .finialized-icon
   position: absolute
   left: calc(100% - 8.5em)
+
+@media screen and (max-width: 57em)
+  .classes
+    width: 18% !important
+  .details
+    width: 73.5%
+  .class-row
+    height: 4.75em
+    white-space: nowrap
+  .badge, .finialized-icon
+    bottom: 0.5em
+  .finialized-icon
+    left: 1.85em
+  .course-percent-grade
+    left: 4.5em
+  .course-letter-grade
+    left: 10.75em
 </style>
 
