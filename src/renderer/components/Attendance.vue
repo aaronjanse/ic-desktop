@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h3 class="text-center">January</h3>
+    <h3 class="text-center">
+      January
+      <i class="fa fa-angle-left fa-border last-month"></i>
+      <i class="fa fa-angle-right fa-border next-month"></i>
+    </h3>
     <div class="container">
       <div class="row">
         <div class="col">Sunday</div>
@@ -31,4 +35,12 @@
 <style lang="sass" scoped>
 .day
   height: 4em
+
+.last-month
+  position: absolute
+  left: 30%
+
+.next-month
+  position: absolute
+  right: 30%
 </style>
