@@ -24,9 +24,9 @@
             <tr v-for="(assignment, key) in section.assignments" v-bind:key="key">
               <td class="assignment">{{ assignment.name }}</td>
               <td class="worth" v-if="calculatorMode">{{ assignment.worth | formatAsPercentage }}</td>
-              <mutable-cell cl="weight" :value="assignment.weight"></mutable-cell>
-              <mutable-cell cl="received" :value="assignment.ptsReceived"></mutable-cell>
-              <mutable-cell cl="possible" :value="assignment.ptsPossible"></mutable-cell>
+              <mutable-cell :key="assignment.name + '-weight'" cl="weight" :value="assignment.weight"></mutable-cell>
+              <mutable-cell :key="assignment.name + '-received'" cl="received" :value="assignment.ptsReceived"></mutable-cell>
+              <mutable-cell :key="assignment.name + '-possible'" cl="possible" :value="assignment.ptsPossible"></mutable-cell>
               <td class="percent">{{ assignment.grade | formatAsPercentage }}</td>
             </tr>
             <tr class="table-warning totals-row">
