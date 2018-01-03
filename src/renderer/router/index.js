@@ -1,15 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store'
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: require('@/components/Login').default
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: require('@/components/About').default,
+      meta: { protected: true }
     },
     {
       path: '/recent',
@@ -37,20 +42,14 @@ const router = new Router({
     },
     {
       path: '*',
-      redirect: '/'
+      redirect: '/login'
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.protected)) {
-    if (!store.state.Student.student) {
-      next({
-        path: '/'
-      })
-    } else {
-      next()
-    }
+  if (from.path === '/' && to.path !== '/login') {
+    next({path: '/login'})
   } else {
     next()
   }

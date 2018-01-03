@@ -146,4 +146,9 @@ app.on('ready', () => {
     manuallyUpdating = false
     autoUpdater.checkForUpdates()
   }
+
+  mainWindow.webContents.on('new-window', (e, url) => {
+    e.preventDefault()
+    require('electron').shell.openExternal(url)
+  })
 })
