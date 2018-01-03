@@ -13,6 +13,7 @@
           <thead>
             <tr>
               <th scope="col" class="assignment">Assignment</th>
+              <th scope="col" class="worth" v-if="calculatorMode">Worth</th>
               <th scope="col" class="weight">Weight</th>
               <th scope="col" class="received">Received</th>
               <th scope="col" class="possible">Possible</th>
@@ -22,6 +23,7 @@
           <tbody>
             <tr v-for="(assignment, key) in section.assignments" v-bind:key="key">
               <td class="assignment">{{ assignment.name }}</td>
+              <td class="worth" v-if="calculatorMode">{{ assignment.worth | formatAsPercentage }}</td>
               <td class="weight">{{ assignment.weight }}</td>
               <td class="received">{{ assignment.ptsReceived }}</td>
               <td class="possible">{{ assignment.ptsPossible }}</td>
@@ -29,6 +31,7 @@
             </tr>
             <tr class="table-warning totals-row">
               <td class="assignment">Totals</td>
+              <td class="worth" v-if="calculatorMode">{{ section.worth | formatAsPercentage }}</td>
               <td class="weight"></td>
               <td class="received">{{ section.ptsReceived }}</td>
               <td class="possible">{{ section.ptsPossible }}</td>
@@ -69,7 +72,10 @@
   text-align: right
 
 .assignment
-  width: 55%
+  width: 45%
+
+.worth
+  width: 10%
 
 .weight
   width: 10%

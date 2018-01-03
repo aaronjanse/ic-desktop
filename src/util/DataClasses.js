@@ -3,17 +3,31 @@ export class Class {
     this.name = name
     this.teacher = teacher
     this.sections = sections
+
+    sections.forEach(section => {
+      if (section.weight === null) {
+        section.worth = section.ptsPossible / this.ptsPossible
+      } else {
+        section.worth = section.weight / this.sectionWeightSum
+      }
+      section.assignments.forEach(assignment => {
+        assignment.worth = (assignment.weight * assignment.ptsPossible / section.ptsPossible) * section.worth
+      })
+    })
   }
 
   get grade () {
-    const weightSum = this.sections.reduce(
-      (total, section) => total + section.weight,
-      0
-    )
     return this.sections.reduce(
       (total, section) => total + section.grade * section.weight,
       0
-    ) / weightSum
+    ) / this.sectionWeightSum
+  }
+
+  get sectionWeightSum () {
+    return this.sections.reduce(
+      (total, section) => total + section.weight,
+      0
+    )
   }
 
   get ptsPossible () {
@@ -36,6 +50,7 @@ export class Section {
     this.name = name
     this.weight = weight
     this.assignments = assignments
+    this.worth = null
   }
 
   get grade () {
@@ -63,6 +78,7 @@ export class Assignment {
     this.weight = weight
     this.ptsPossible = ptsPossible
     this.ptsReceived = ptsReceived
+    this.worth = null
   }
 
   get grade () {
