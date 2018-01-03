@@ -1,6 +1,6 @@
 {
   "name": "ic-desktop",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": "Aaron Janse <gitduino@gmail.com>",
   "description": "Desktop client for InfiniteCampus",
   "license": "AGPL-3.0-only",
