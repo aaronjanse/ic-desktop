@@ -1,8 +1,9 @@
 export class Class {
-  constructor (name, teacher, sections, isFinalized) {
+  constructor (name, teacher, sections, gradingScale, isFinalized) {
     this.name = name
     this.teacher = teacher
     this.sections = sections
+    this.gradingScale = gradingScale
     this.isFinalized = isFinalized
   }
 
@@ -16,6 +17,22 @@ export class Class {
     } else {
       return this.sections.reduce((total, section) => total + section.grade * section.weight, 0) / weightSum
     }
+  }
+
+  get letterGrade () {
+    const grade = this.grade
+    var currentLetterGrade = null
+    for (var letterGrade in this.gradingScale) {
+      if (this.gradingScale.hasOwnProperty(letterGrade)) {
+        const percent = this.gradingScale[letterGrade]
+        if (grade >= percent) {
+          if (currentLetterGrade === null || this.gradingScale[currentLetterGrade] < percent) {
+            currentLetterGrade = letterGrade
+          }
+        }
+      }
+    }
+    return currentLetterGrade
   }
 
   get ptsPossible () {
