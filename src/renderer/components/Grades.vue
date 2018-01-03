@@ -5,13 +5,13 @@
         <div class="list-group">
           <router-link class="list-group-item list-group-item-action" active-class="active" :to="{ path: '/grades/' + key }" v-for="(course, key) in courses" v-bind:key="course.name">
             {{ course.name | formatCourseName }}
-            <span class="badge badge-primary badge-pill pull-right course-letter-grade text-left" :class="{ 'badge-light': $route.params.id == key }">
+            <span class="badge badge-primary badge-pill course-letter-grade text-left" :class="{ 'badge-light': $route.params.id == key }">
               {{course.letterGrade}}
             </span>
-            <span class="badge badge-primary badge-pill pull-right course-percent-grade text-right" :class="{ 'badge-light': $route.params.id == key }">
+            <span class="badge badge-primary badge-pill course-percent-grade text-right" :class="{ 'badge-light': $route.params.id == key }">
               {{ course.grade | formatAsPercentage }}
             </span>
-            <i class="fa fa-lock pull-right finialized-icon" title="Finalized" v-bind:style="{visibility: course.isFinalized ? 'visible' : 'hidden'}"></i>
+            <i class="fa fa-lock finialized-icon" title="Finalized" v-bind:style="{visibility: course.isFinalized ? 'visible' : 'hidden'}"></i>
          </router-link>
         </div>
       </div>
@@ -42,12 +42,16 @@
 
 .course-percent-grade
   width: 5.5em
+  position: absolute
+  right: 4.25em
 
 .course-letter-grade
-  width: 2.5em
-  margin-left: 0.75em
+  max-width: 2.5em
+  position: absolute
+  left: calc(100% - 3.5em)
 
 .finialized-icon
-  margin-right: 0.75em
+  position: absolute
+  left: calc(100% - 8.5em)
 </style>
 
