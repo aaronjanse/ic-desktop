@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h3>About ic-desktop</h3>
-
     <p>ic-desktop is an open-source desktop client for the grade management website InfiniteCampus.</p>
 
     <p>Source code can be found at
