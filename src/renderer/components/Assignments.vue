@@ -24,9 +24,9 @@
             <tr v-for="(assignment, key) in section.assignments" v-bind:key="key">
               <td class="assignment">{{ assignment.name }}</td>
               <td class="worth" v-if="calculatorMode">{{ assignment.worth | formatAsPercentage }}</td>
-              <td class="weight">{{ assignment.weight }}</td>
-              <td class="received">{{ assignment.ptsReceived }}</td>
-              <td class="possible">{{ assignment.ptsPossible }}</td>
+              <mutable-cell cl="weight" :value="assignment.weight"></mutable-cell>
+              <mutable-cell cl="received" :value="assignment.ptsReceived"></mutable-cell>
+              <mutable-cell cl="possible" :value="assignment.ptsPossible"></mutable-cell>
               <td class="percent">{{ assignment.grade | formatAsPercentage }}</td>
             </tr>
             <tr class="table-warning totals-row">
@@ -45,8 +45,12 @@
 </template>
 
 <script>
+  import MutableCell from './MutableCell.vue'
   export default {
     name: 'Assignments',
+    components: {
+      MutableCell
+    },
     computed: {
       course () {
         return this.$store.state.Student.courses[this.$route.params.id]
