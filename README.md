@@ -5,6 +5,8 @@
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/dpba49y12fjwt1h6?svg=true)](https://ci.appveyor.com/project/aaronduino/ic-desktop)
 [![Travis build Status](https://travis-ci.org/aaronduino/ic-desktop.svg?branch=master)](https://travis-ci.org/aaronduino/ic-desktop)
 
+![Sign In](screenshot_signin.png)
+
 ![View Recent Assignments](screenshot_recent.png)
 
 ![View Grade Details](screenshot_grades.png)
