@@ -3,7 +3,7 @@
     <div class="alert alert-warning" v-if="calculatorMode">
       <small><strong><i class="fa fa-calculator"></i> You are in calculator mode.</strong> You can locally edit your grades to preview changes.</small>
     </div>
-    <div class="card" v-for="(section, key) in course.sections" v-bind:key="key">
+    <div class="card" v-for="(section, sectionKey) in course.sections" v-bind:key="sectionKey">
       <h4 class="card-header">{{ section.name }}
         <span class="badge badge-primary weight-badge">weight of {{ section.weight }}</span>
         <span class="badge badge-success grade-badge">{{ section.grade | formatAsPercentage }}</span>
@@ -21,20 +21,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(assignment, key) in section.assignments" v-bind:key="key">
+            <tr v-for="(assignment, assignmentKey) in section.assignments" v-bind:key="assignmentKey">
               <td class="assignment">{{ assignment.name }}</td>
               <td class="worth" v-if="calculatorMode">{{ assignment.worth | formatAsPercentage }}</td>
               <td class="weight">
                 <span v-if="!calculatorMode">{{ assignment.weight }}</span>
-                <input v-else type="text" class="form-control" v-model="assignment.weight">
+                <input v-else type="text" class="form-control" :value="assignment.weight" @input="(e) => {updateAssignment(sectionKey, assignmentKey, 'weight', e.target.value)}">
               </td>
               <td class="received">
                 <span v-if="!calculatorMode">{{ assignment.ptsReceived }}</span>
-                <input v-else type="text" class="form-control" v-model="assignment.ptsReceived">
+                <input v-else type="text" class="form-control" :value="assignment.ptsReceived" @input="(e) => {updateAssignment(sectionKey, assignmentKey, 'ptsReceived', e.target.value)}">
               </td>
               <td class="possible">
                 <span v-if="!calculatorMode">{{ assignment.ptsPossible }}</span>
-                <input v-else type="text" class="form-control" v-model="assignment.ptsPossible">
+                <input v-else type="text" class="form-control" :value="assignment.ptsPossible" @input="(e) => {updateAssignment(sectionKey, assignmentKey, 'ptsPossible', e.target.value)}">
               </td>
               <td class="percent">{{ assignment.grade | formatAsPercentage }}</td>
             </tr>
@@ -56,6 +56,13 @@
 <script>
   export default {
     name: 'Assignments',
+    methods: {
+      updateAssignment (sectionKey, assignmentKey, propertyName, value) {
+        var courses = this.$store.state.Student.courses.map(c => c.clone())
+        courses[this.$route.params.id].sections[sectionKey].assignments[assignmentKey][propertyName] = value
+        this.$store.commit('setCourses', courses)
+      }
+    },
     computed: {
       course () {
         return this.$store.state.Student.courses[this.$route.params.id]
@@ -63,6 +70,12 @@
       calculatorMode () {
         return this.$store.state.Settings.calculatorMode
       }
+    },
+    mutations: {
+      // updateAssignment (state, sectionKey, assignmentKey, propertyName, value) {
+      //   console.log(state)
+      //   state.course.sections[sectionKey].assignments[assignmentKey][propertyName] = value
+      // }
     }
   }
 </script>

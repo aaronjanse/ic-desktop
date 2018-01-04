@@ -11,9 +11,13 @@ export class Class {
         section.worth = section.weight / this.sectionWeightSum
       }
       section.assignments.forEach(assignment => {
-        assignment.worth = (assignment.weight * assignment.ptsPossible / section.ptsPossible) * section.worth
+        assignment.parentSection = section
       })
     })
+  }
+
+  clone () {
+    return new Class(this.name, this.teacher, this.sections.map(s => s.clone()))
   }
 
   get grade () {
@@ -53,6 +57,10 @@ export class Section {
     this.worth = null
   }
 
+  clone () {
+    return new Section(this.name, this.weight, this.assignments.map(a => a.clone()))
+  }
+
   get grade () {
     return this.ptsReceived / this.ptsPossible
   }
@@ -78,10 +86,22 @@ export class Assignment {
     this.weight = weight
     this.ptsPossible = ptsPossible
     this.ptsReceived = ptsReceived
-    this.worth = null
+    this.parentSection = null
+  }
+
+  clone () {
+    return new Assignment(this.name, this.weight, this.ptsPossible, this.ptsReceived, this.dueDate, this.assignedDate)
   }
 
   get grade () {
     return this.ptsReceived / this.ptsPossible
+  }
+
+  get worth () {
+    if (this.ptsPossible > 0) {
+      return (this.weight * this.ptsPossible / this.parentSection.ptsPossible) * this.parentSection.worth
+    } else {
+      return NaN
+    }
   }
 }
