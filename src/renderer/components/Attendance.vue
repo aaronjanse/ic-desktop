@@ -83,11 +83,11 @@
         }
 
         if (date.isBefore(this.calendarData.firstDate)) {
-          return 'outside-schoolyear-day'
+          return 'outside-school-year'
         }
 
         if (date.isAfter(this.calendarData.lastDate)) {
-          return 'outside-schoolyear-day'
+          return 'outside-school-year'
         }
 
         const dateStr = date.format('YYYY-MM-DD')
@@ -141,7 +141,7 @@
 .null-day
   background-color: white
 
-.outside-schoolyear-day
+.outside-school-year
   background-color: white
 
 .weekend-day
