@@ -2,7 +2,7 @@
   <div>
     <h3 class="text-center">
       {{ monthName }} {{ year }}
-      <i class="fa fa-angle-left fa-border last-month" v-on:click="() => {incrementMonth(-1)}"></i>
+      <i class="fa fa-angle-left fa-border previous-month" v-on:click="() => {incrementMonth(-1)}"></i>
       <i class="fa fa-angle-right fa-border next-month" v-on:click="() => {incrementMonth(1)}"></i>
     </h3>
     <div class="container">
@@ -105,7 +105,7 @@
 .day
   height: 4em
 
-.last-month
+.previous-month
   position: absolute
   left: 30%
 
