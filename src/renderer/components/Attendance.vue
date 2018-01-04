@@ -1,9 +1,9 @@
 <template>
   <div>
     <h3 class="text-center">
-      January
-      <i class="fa fa-angle-left fa-border last-month"></i>
-      <i class="fa fa-angle-right fa-border next-month"></i>
+      {{ monthName }} {{ year }}
+      <i class="fa fa-angle-left fa-border last-month" v-on:click="() => {incrementMonth(-1)}"></i>
+      <i class="fa fa-angle-right fa-border next-month" v-on:click="() => {incrementMonth(1)}"></i>
     </h3>
     <div class="container">
       <div class="row">
@@ -15,10 +15,10 @@
         <div class="col">Friday</div>
         <div class="col">Saturday</div>
       </div>
-      <div class="row" v-for="rowNum in 5" v-bind:key="rowNum">
-        <div class="col border" v-for="colNum in 7" v-bind:key="colNum" v-bind:class="{'bg-light': colNum === 1 || colNum == 7 || (rowNum - 1) * 7 + colNum > 31}">
+      <div class="row" v-for="rowNum in 6" v-bind:key="rowNum">
+        <div class="col border" v-for="colNum in 7" v-bind:key="colNum">
           <div class="day">
-            <span>{{ (rowNum - 1) * 7 + colNum }}</span>
+            <span v-if="calcDayNum(rowNum, colNum)">{{ calcDayNum(rowNum, colNum) }}</span>
           </div>
         </div>
       </div>
@@ -27,8 +27,43 @@
 </template>
 
 <script>
+  const moment = require('moment')
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   export default {
-    name: 'Attendance'
+    name: 'Attendance',
+    data: () => ({
+      year: moment().year(),
+      monthIdx: moment().month()
+    }),
+    methods: {
+      incrementMonth: function (increment) {
+        this.monthIdx += increment
+
+        if (this.monthIdx < 0) {
+          this.year -= 1
+        }
+        if (this.monthIdx > 11) {
+          this.year += 1
+        }
+
+        this.monthIdx = (this.monthIdx + 12) % 12
+      },
+      calcDayNum: function (row, col) {
+        const num = ((row - 1) * 7 + col) - moment(`${this.year}-${this.monthIdx + 1}-1`, 'YYYY-M-D').day()
+
+        const thisMonth = moment(`${this.year}-${this.monthIdx + 1}`, 'YYYY-M')
+        if (num <= 0 || num > thisMonth.daysInMonth()) {
+          return null
+        }
+
+        return num
+      }
+    },
+    computed: {
+      monthName: function () {
+        return months[this.monthIdx]
+      }
+    }
   }
 </script>
 
