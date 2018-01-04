@@ -2,7 +2,6 @@
   <div>
     <div class="card" v-for="(section, key) in course.sections" v-bind:key="key">
       <h4 class="card-header">{{ section.name }}
-        <span class="badge badge-primary weight-badge" v-if="section.weight">weight of {{ section.weight }}</span>
         <span class="badge badge-success grade-badge">{{ section.grade | formatAsPercentage }}</span>
       </h4>
       <div class="card-body">
@@ -10,7 +9,10 @@
           <thead>
             <tr>
               <th scope="col" class="assignment">Assignment</th>
-              <th scope="col" class="weight">Weight</th>
+              <th scope="col" class="weight">
+                Weight
+                <span class="badge badge-primary weight-badge" v-if="section.weight">weight of {{ section.weight }}</span>
+              </th>
               <th scope="col" class="received">Received</th>
               <th scope="col" class="possible">Possible</th>
               <th scope="col" class="percent">Percentage</th>
@@ -79,7 +81,8 @@
 
 .weight-badge
   position: absolute
-  right: 39%
+  top: 1em
+  transform: translateX(-100%);
 
 .grade-badge
   position: absolute
