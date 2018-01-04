@@ -73,12 +73,23 @@
           return true
         }
 
+        if (date.isBefore(this.calendarData.firstDate)) {
+          return true
+        }
+
+        if (date.isAfter(this.calendarData.lastDate)) {
+          return true
+        }
+
         return false
       }
     },
     computed: {
       monthName: function () {
         return months[this.monthIdx]
+      },
+      calendarData: function () {
+        return this.$store.state.Student.calendarData
       }
     }
   }
