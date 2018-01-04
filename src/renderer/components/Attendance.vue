@@ -151,7 +151,7 @@
   background-color: white
 
 .normal-day
-  background-color: rgb(248, 251, 254)
+  background-color: rgb(244, 247, 255)
 
 .attendance-indicator
   position: absolute
