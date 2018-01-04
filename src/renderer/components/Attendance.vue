@@ -161,4 +161,10 @@
 .next-month
   position: absolute
   right: 30%
+
+.next-month:hover, .previous-month:hover
+  background-color: #fdfdfd
+
+.next-month:active, .previous-month:active
+  background-color: #f1f1f1
 </style>
