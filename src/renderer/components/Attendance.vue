@@ -16,7 +16,7 @@
         <div class="col">Saturday</div>
       </div>
       <div class="row" v-for="rowNum in 6" v-bind:key="rowNum">
-        <div class="col border" v-for="colNum in 7" v-bind:key="colNum">
+        <div class="col border" v-for="colNum in 7" v-bind:key="colNum" v-bind:class="{'bg-light': shouldShade(rowNum, colNum)}">
           <div class="day">
             <span v-if="calcDayNum(rowNum, colNum)">{{ calcDayNum(rowNum, colNum) }}</span>
           </div>
@@ -57,6 +57,23 @@
         }
 
         return num
+      },
+      shouldShade: function (row, col) {
+        const day = this.calcDayNum(row, col)
+        const month = this.monthIdx + 1
+        const year = this.year
+
+        if (day === null) {
+          return true
+        }
+
+        const date = moment(`${year}-${month}-${day}`, 'YYYY-M-D')
+
+        if ([0, 6].indexOf(date.day()) !== -1) {
+          return true
+        }
+
+        return false
       }
     },
     computed: {
