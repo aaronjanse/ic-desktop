@@ -38,6 +38,14 @@
     }),
     methods: {
       incrementMonth: function (increment) {
+        if (increment < 0 && moment(`${this.year}-${this.monthIdx + 1}`, 'YYYY-M').isBefore(this.calendarData.firstDate)) {
+          return
+        }
+
+        if (increment > 0 && moment(`${this.year}-${this.monthIdx + 2}`, 'YYYY-M').isAfter(this.calendarData.lastDate)) {
+          return
+        }
+
         this.monthIdx += increment
 
         if (this.monthIdx < 0) {
