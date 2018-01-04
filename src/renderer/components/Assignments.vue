@@ -25,7 +25,7 @@
               <td class="assignment">{{ assignment.name }}</td>
               <td class="worth" v-if="calculatorMode">{{ assignment.worth | formatAsPercentage }}</td>
               <td class="weight">
-                <span v-if="!calculatorMode">{{ assignment.weigh }}</span>
+                <span v-if="!calculatorMode">{{ assignment.weight }}</span>
                 <input v-else type="text" class="form-control" v-model="assignment.weigh">
               </td>
               <td class="received">
