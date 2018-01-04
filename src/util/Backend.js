@@ -70,12 +70,10 @@ export default class Backend {
           const [, month, day, year] = /'(\d\d)\/(\d\d)\/(\d\d\d\d)'/g.exec(str)
           return `${year}-${month}-${day}`
         })
-        const daysAbsent = code.match(/daysAbsent\[\d+\] = '.+?';/g).map(str => {
+        var daysAbsent = {}
+        code.match(/daysAbsent\[\d+\] = '.+?';/g).forEach(str => {
           const [, month, day, year, reason] = /'(\d\d)\/(\d\d)\/(\d\d\d\d)_(.)'/g.exec(str)
-          return {
-            date: `${year}-${month}-${day}`,
-            reason: reason
-          }
+          daysAbsent[`${year}-${month}-${day}`] = reason
         })
 
         return {

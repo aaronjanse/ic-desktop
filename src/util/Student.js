@@ -28,12 +28,9 @@ export default class Student {
     "nonInstructionalDays": [
       "YYYY-MM-DD"
     ],
-    "daysAbsent": [
-      {
-        "date": "YYYY-MM-DD",
-        "reason": str // 1 letter
-      }
-    ]
+    "daysAbsent": {
+      "YYYY-MM-DD": str // 1-letter code for the reasom
+    }
   }
   */
   getCalendar = () => {
