@@ -16,9 +16,10 @@
         <div class="col">Saturday</div>
       </div>
       <div class="row" v-for="rowNum in 6" v-bind:key="rowNum">
-        <div class="col border" v-for="colNum in 7" v-bind:key="colNum" v-bind:class="{'bg-light': shouldShade(rowNum, colNum)}">
+        <div class="col border" v-for="colNum in 7" v-bind:key="colNum" v-bind:class="calcClass(rowNum, colNum)">
           <div class="day">
             <span v-if="calcDayNum(rowNum, colNum)">{{ calcDayNum(rowNum, colNum) }}</span>
+            <span class="attendance-indicator">{{ getNotes(rowNum, colNum) }}</span>
           </div>
         </div>
       </div>
@@ -58,36 +59,63 @@
 
         return num
       },
-      shouldShade: function (row, col) {
+      calcClass: function (row, col) {
         const day = this.calcDayNum(row, col)
         const month = this.monthIdx + 1
         const year = this.year
 
         if (day === null) {
-          return true
+          return 'null-day'
         }
 
         const date = moment(`${year}-${month}-${day}`, 'YYYY-M-D')
 
         if ([0, 6].indexOf(date.day()) !== -1) {
-          return true
+          return 'weekend-day'
         }
 
         if (date.isBefore(this.calendarData.firstDate)) {
-          return true
+          return 'outside-schoolyear-day'
         }
 
         if (date.isAfter(this.calendarData.lastDate)) {
-          return true
+          return 'outside-schoolyear-day'
         }
 
         const dateStr = date.format('YYYY-MM-DD')
 
         if (this.calendarData.nonInstructionalDays.indexOf(dateStr) !== -1) {
-          return true
+          return 'no-school-day'
         }
 
-        return false
+        return 'normal-day'
+      },
+      getNotes: function (row, col) {
+        const day = this.calcDayNum(row, col)
+        const month = this.monthIdx + 1
+        const year = this.year
+
+        if (day === null) {
+          return ''
+        }
+
+        const date = moment(`${year}-${month}-${day}`, 'YYYY-M-D')
+        if ([0, 6].indexOf(date.day()) !== -1) {
+          return ''
+        }
+
+        const dateStr = date.format('YYYY-MM-DD')
+
+        if (this.calendarData.nonInstructionalDays.indexOf(dateStr) !== -1) {
+          return ''
+        }
+
+        if (dateStr in this.calendarData.daysAbsent) {
+          const code = this.calendarData.daysAbsent[dateStr]
+          return code
+        }
+
+        return ''
       }
     },
     computed: {
@@ -102,6 +130,27 @@
 </script>
 
 <style lang="sass" scoped>
+.null-day
+  background-color: white
+
+.outside-schoolyear-day
+  background-color: white
+
+.weekend-day
+  background-color: white
+
+.no-school-day
+  background-color: white
+
+.normal-day
+  background-color: rgb(248, 251, 254)
+
+.attendance-indicator
+  position: absolute
+  bottom: 0
+  right: 0.5em
+  color: red
+
 .day
   height: 4em
 
