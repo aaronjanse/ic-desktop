@@ -81,6 +81,12 @@
           return true
         }
 
+        const dateStr = date.format('YYYY-MM-DD')
+
+        if (this.calendarData.nonInstructionalDays.indexOf(dateStr) !== -1) {
+          return true
+        }
+
         return false
       }
     },
