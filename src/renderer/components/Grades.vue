@@ -1,6 +1,20 @@
 <template>
   <div class="" style="margin-top: 10px">
     <div class="row">
+      <div class="card class-info" style="width: 18rem;">
+        <div class="card-body">
+          <h6 class="card-title">{{ courses[selectedCourseId].name | formatCourseName }}</h6>
+          <p class="teacher text-muted card-subtitle">{{ courses[selectedCourseId].teacher | formatTeacherName }}</p>
+          <p class="card-text info-text">
+            ΔGPA: {{ deltaGPA(selectedCourseId) }}
+          </p>
+        </div>
+      </div>
+      <div class="details">
+        <router-view></router-view>
+      </div>
+    </div>
+    <div class="row">
       <div class="classes">
         <div class="list-group">
           <router-link class="list-group-item list-group-item-action class-row" active-class="active" :to="{ path: '/grades/' + key }" v-for="(course, key) in courses" v-bind:key="course.name">
@@ -15,9 +29,6 @@
          </router-link>
         </div>
       </div>
-      <div class="details">
-        <router-view></router-view>
-      </div>
     </div>
   </div>
 </template>
@@ -31,6 +42,19 @@
       },
       courses () {
         return this.$store.state.Student.courses
+      },
+      selectedCourseId () {
+        return this.$route.params.id || 0
+      }
+    },
+    methods: {
+      deltaGPA (idx) {
+        const gpaWith = this.courses.map(course => course.gradePoint).reduce((a, b) => a + b, 0) / this.courses.length
+
+        const otherCourses = this.courses.filter((c, idx_) => idx_ !== idx)
+        const gpaWithout = otherCourses.map(course => course.gradePoint).reduce((a, b) => a + b, 0) / otherCourses.length
+
+        return gpaWith - gpaWithout
       }
     }
   }
@@ -40,6 +64,18 @@
 .classes
   width: 23.5% !important
   margin-left: 2.5%
+
+.class-info
+  width: 23.5% !important
+  margin-left: 2.5%
+  margin-bottom: 2.5%
+
+.teacher
+  font-size: 0.75em
+
+.info-text
+  margin-top: 0.75em
+  font-family: monospace
 
 .details
   position: absolute
@@ -65,7 +101,7 @@
   left: calc(100% - 8.5em)
 
 @media screen and (max-width: 57em)
-  .classes
+  .classes, .class-info
     width: 18% !important
   .details
     width: 73.5%

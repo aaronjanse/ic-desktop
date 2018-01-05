@@ -35,6 +35,25 @@ export class Class {
     return currentLetterGrade
   }
 
+  get gradePoint () {
+    const gradePointMap = {
+      4: ['A+', 'A', 'A-'],
+      3: ['B+', 'B', 'B-'],
+      2: ['C+', 'C', 'C-'],
+      1: ['D+', 'D'],
+      0: ['F']
+    }
+
+    const letterGrade = this.letterGrade
+    for (var gradePoint in gradePointMap) {
+      if (gradePointMap.hasOwnProperty(gradePoint)) {
+        if (gradePointMap[gradePoint].indexOf(letterGrade) !== -1) {
+          return parseFloat(gradePoint)
+        }
+      }
+    }
+  }
+
   get ptsPossible () {
     return this.sections.reduce(
       (total, section) => total + section.ptsPossible,

@@ -28,3 +28,8 @@ export function formatCourseName (str) {
     }
   })
 }
+
+export function formatTeacherName (str) {
+  const [, lastName, firstName] = /(.+?), (.+)/g.exec(str)
+  return `${firstName} ${lastName}`
+}
