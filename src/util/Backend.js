@@ -299,7 +299,7 @@ export default class Backend {
           return {
             url: el['attribs']['href'],
             class_name: siblings[0].children[1].children[0].data,
-            teacher_name: siblings[3].children[1].data
+            teacher_name: siblings[3].children[1].data.trim()
           }
         })
       })
