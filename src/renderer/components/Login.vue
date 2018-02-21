@@ -45,8 +45,8 @@
           student.getRecentAssignments().then(recentAssignments => {
             this.$store.commit('setRecentAssignments', recentAssignments)
           })
-          student.getCalendar().then(attendance => {
-            console.log(attendance)
+          student.getCalendar().then(calendarData => {
+            this.$store.commit('setCalendarData', calendarData)
           })
 
           this.$store.commit('setStudent', student)

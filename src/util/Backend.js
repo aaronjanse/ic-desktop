@@ -80,33 +80,17 @@ export default class Backend {
 
         const nonInstructionalDays = code.match(/nonInstructionalDays\[\d+\] = '.+?';/g).map(str => {
           const [, month, day, year] = /'(\d\d)\/(\d\d)\/(\d\d\d\d)'/g.exec(str)
-          return {
-            day: parseInt(day),
-            month: parseInt(month) - 1,
-            year: parseInt(year)
-          }
+          return `${year}-${month}-${day}`
         })
-        const daysAbsent = code.match(/daysAbsent\[\d+\] = '.+?';/g).map(str => {
+        var daysAbsent = {}
+        code.match(/daysAbsent\[\d+\] = '.+?';/g).forEach(str => {
           const [, month, day, year, reason] = /'(\d\d)\/(\d\d)\/(\d\d\d\d)_(.)'/g.exec(str)
-          return {
-            day: parseInt(day),
-            month: parseInt(month) - 1,
-            year: parseInt(year),
-            reason: reason
-          }
+          daysAbsent[`${year}-${month}-${day}`] = reason
         })
 
         return {
-          firstDate: {
-            day: parseInt(firstDay),
-            month: parseInt(firstMonth) - 1,
-            year: parseInt(firstYear)
-          },
-          lastDate: {
-            day: parseInt(lastDay),
-            month: parseInt(lastMonth) - 1,
-            year: parseInt(lastYear)
-          },
+          firstDate: `${firstYear}-${firstMonth}-${firstDay}`,
+          lastDate: `${lastYear}-${lastMonth}-${lastDay}`,
           nonInstructionalDays: nonInstructionalDays,
           daysAbsent: daysAbsent
         }
@@ -299,7 +283,7 @@ export default class Backend {
           return {
             url: el['attribs']['href'],
             class_name: siblings[0].children[1].children[0].data,
-            teacher_name: siblings[3].children[1].data
+            teacher_name: siblings[3].children[1].data.trim()
           }
         })
       })
