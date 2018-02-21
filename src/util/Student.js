@@ -23,31 +23,14 @@ export default class Student {
 
   /* returns
   {
-    "firstDate": {
-      "day": int,
-      "month": int, // 0-indexed,
-      "year": int
-    },
-    "lastDate": {
-      "day": int,
-      "month": int, // 0-indexed,
-      "year": int
-    },
+    "firstDate": "YYYY-MM-DD",
+    "lastDate": "YYYY-MM-DD",
     "nonInstructionalDays": [
-      {
-        "day": int,
-        "month": int, // 0-indexed,
-        "year": int
-      }
+      "YYYY-MM-DD"
     ],
-    "daysAbsent": [
-      {
-        "day": int,
-        "month": int, // 0-indexed,
-        "year": int,
-        "reason": str // 1 letter
-      }
-    ]
+    "daysAbsent": {
+      "YYYY-MM-DD": str // 1-letter code for the reasom
+    }
   }
   */
   getCalendar = () => {
